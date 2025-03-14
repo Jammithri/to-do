@@ -115,3 +115,44 @@ def register_user_valid(db):
     }
     # Teardown
     yield form
+
+
+@pytest.fixture
+def task_update_valid(db, user):
+    """Fixture for updating a valid task"""
+    # Setup
+    task = Task.objects.create(
+        user=user,
+        title="Initial Task",
+        description="Initial task description",
+        due_date="2025-03-01",
+        completed=False,
+    )
+    updated_data = {
+        "title": "Updated Task",
+        "description": "Updated task description",
+        "due_date": "2025-03-10",
+        "completed": True,
+    }
+    # Teardown
+    yield task, updated_data
+
+@pytest.fixture
+def task_update_invalid(db, user):
+    """Fixture for updating a task with invalid data"""
+    # Setup
+    task = Task.objects.create(
+        user=user,
+        title="Initial Task",
+        description="Initial task description",
+        due_date="2025-03-01",
+        completed=False,
+    )
+    invalid_data = {
+        "title": "",  # Empty title, should trigger validation error
+        "description": "Updated task description",
+        "due_date": "2025-03-10",
+        "completed": True,
+    }
+    # Teardown
+    yield task, invalid_data
