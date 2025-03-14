@@ -1,6 +1,5 @@
 #import pytest
 
-from tasks.forms import TaskForm
 
 
 #@pytest.mark.django_db
